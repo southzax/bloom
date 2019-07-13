@@ -7,18 +7,43 @@
 ;; 3. check if it's correct
 ;; 4. loop
 
+;;Make this work with different number of puzzle options
+;;Make this work with different puzzel formats
+;;When correct, loop and regenerate puzzle (end after what?)
+;;Keep track of progress
+
+;Questions for Jon:
+;1.  How do I change the name of a project?  Do I change all the internal references one by one?
+;2.  How do I put this on Github?
+
+
+(def puzzles [
+              {:format :multi-choice
+               :question "Does this even work?"
+               :options {:a "First attempt -- nope"
+                         :b "Made some progress -- still nope"
+                         :c "Ask the Googles"
+                         :d "Victory!  Next Step: World Domination"}
+               :answer #{"D" "d"}}
+              {:format :multi-choice
+               :question "Will this work without four options?"
+               :options {:a "First attempt -- nope"
+                         :b "Made some progress -- still nope"
+                         :c "Ask the Googles"
+                         :d "Victory!  Next Step: World Domination"}
+               :answer #{"A" "a"}}
+              {:format :multi-choice
+               :question "Can I make these questions a different format?"
+               :options {:a "First attempt -- nope"
+                         :b "Made some progress -- still nope"
+                         :c "Ask the Googles"
+                         :d "Victory!  Next Step: World Domination"}
+               :answer #{"C" "c"}}])
+
 (defn generate-puzzle
   []
-  {:format :multi-choice
-   :question "Does this even work?"
-   :options {:a "First attempt -- nope"
-             :b "Made some progress -- still nope"
-             :c "Ask the Googles"
-             :d "Victory!  Next Step: World Domination"}
-   :answer #{"D" "d"}})
-
-(def puzzle (generate-puzzle))
-
+  (get puzzles (rand-int 3)))
+  ;generate random number to pick a puzzle
 
 (defn print-options
   [puzzle]
@@ -28,28 +53,24 @@
     (println (str 'C- (get-in puzzle [:options :c])))
     (println (str 'D- (get-in puzzle [:options :d])))))
 
-
 (defn print-question
   [puzzle]
   (do
     (println (:question puzzle))
     (print-options puzzle)))
 
-
 (defn check-answer
   [puzzle answer]
   (contains? (get-in puzzle [:answer]) answer))
 
-  ; (contains? #{:a :b :c} :b))
-
-
 (defn -main
   [& args]
-  (loop []
-    (let [puzzle (generate-puzzle)]
+  (let [puzzle (generate-puzzle)]
+    (loop []
       (print-question puzzle)
       (let [answer (read-line)]
         (if (check-answer puzzle answer)
           (println "Correct! Go forth and conquer.")
-          (println "You Chose . . .  Poorly"))))))
-;; TODO: look at (loop) and (recur)
+          (do
+            (println "You Chose . . .  Poorly")
+            (recur)))))))

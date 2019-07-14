@@ -19,21 +19,21 @@
 
 (def puzzles [
               {:format :multi-choice
-               :question "Does this even work?"
+               :question "Q1:  Does this even work?"
                :options {:a "First attempt -- nope"
                          :b "Made some progress -- still nope"
                          :c "Ask the Googles"
                          :d "Victory!  Next Step: World Domination"}
                :answer #{"D" "d"}}
               {:format :multi-choice
-               :question "Will this work without four options?"
+               :question "Q2:  Will this work without four options?"
                :options {:a "First attempt -- nope"
                          :b "Made some progress -- still nope"
                          :c "Ask the Googles"
                          :d "Victory!  Next Step: World Domination"}
                :answer #{"A" "a"}}
               {:format :multi-choice
-               :question "Can I make these questions a different format?"
+               :question "Q3:  Can I make these questions a different format?"
                :options {:a "First attempt -- nope"
                          :b "Made some progress -- still nope"
                          :c "Ask the Googles"
@@ -65,12 +65,17 @@
 
 (defn -main
   [& args]
-  (let [puzzle (generate-puzzle)]
-    (loop []
-      (print-question puzzle)
-      (let [answer (read-line)]
-        (if (check-answer puzzle answer)
-          (println "Correct! Go forth and conquer.")
-          (do
-            (println "You Chose . . .  Poorly")
-            (recur)))))))
+  (loop [puzzle (peek puzzles) remaining-puzzles puzzles]
+    (print-question puzzle)
+    (let [answer (read-line)]
+      (if (check-answer puzzle answer)
+        (do
+          (println "--Great, kid, but don't get cocky.")
+          (if (empty? remaining-puzzles)
+            (println "You've completed your quest, but your princess is in another castle.")
+            (let [[first & remaining] remaining-puzzles]
+              (recur (peek remaining-puzzles) remaining))))
+          ;This works, kinda--askes the first question twice, and then throws an error
+        (do
+          (println "--You Chose . . .  Poorly")
+          (recur (peek puzzles) puzzles))))))

@@ -65,7 +65,7 @@
 
 (defn -main
   [& args]
-  (loop [puzzle (peek puzzles) remaining-puzzles puzzles]
+  (loop [puzzle (nth puzzles 0) remaining-puzzles puzzles]
     (print-question puzzle)
     (let [answer (read-line)]
       (if (check-answer puzzle answer)
@@ -73,9 +73,9 @@
           (println "--Great, kid, but don't get cocky.")
           (if (empty? remaining-puzzles)
             (println "You've completed your quest, but your princess is in another castle.")
-            (let [[first & remaining] remaining-puzzles]
-              (recur (peek remaining-puzzles) remaining))))
+            (let [[puz & remaining] remaining-puzzles]
+              (recur (nth remaining 0) remaining))))
           ;This works, kinda--askes the first question twice, and then throws an error
         (do
           (println "--You Chose . . .  Poorly")
-          (recur (peek puzzles) puzzles))))))
+          (recur (nth puzzles 0) puzzles))))))

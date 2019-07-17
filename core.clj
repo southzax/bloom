@@ -69,10 +69,10 @@
     (print-question (nth remaining-puzzles 0))
     (let [answer (read-line)]
       (if (check-answer (nth remaining-puzzles 0) answer)
-        (do
-          (println "--Great, kid, but don't get cocky.")
-          (if (empty? remaining-puzzles)
-            (println "You've completed your quest, but your princess is in another castle.")
+        (if (empty? remaining-puzzles)
+          (println "You've completed your quest, but your princess is in another castle."
+            remaining-puzzles)
+          (do (println "--Great, kid, but don't get cocky.")
             (let [[puzzle & remaining] remaining-puzzles]
               (recur remaining))))
         (do

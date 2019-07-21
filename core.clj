@@ -66,15 +66,14 @@
 (defn -main
   [& args]
   (loop [remaining-puzzles puzzles]
-    (print-question (nth remaining-puzzles 0))
-    (let [answer (read-line)]
-      (if (check-answer (nth remaining-puzzles 0) answer)
-        (if (empty? remaining-puzzles)
-          (println "You've completed your quest, but your princess is in another castle."
-            remaining-puzzles)
-          (do (println "--Great, kid, but don't get cocky.")
-            (let [[puzzle & remaining] remaining-puzzles]
-              (recur remaining))))
-        (do
-          (println "--You Chose . . .  Poorly")
-          (recur remaining-puzzles))))))
+    (if (empty? remaining-puzzles)
+      (println "You've completed your quest, but your princess is in another castle.")
+      (do (print-question (nth remaining-puzzles 0))
+        (let [answer (read-line)]
+          (if (check-answer (nth remaining-puzzles 0) answer)
+            (do (println "--Great, kid, but don't get cocky.")
+              (let [[puzzle & remaining] remaining-puzzles]
+                (recur remaining)))
+            (do
+              (println "--You Chose . . .  Poorly")
+              (recur remaining-puzzles))))))))

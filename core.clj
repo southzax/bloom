@@ -17,33 +17,34 @@
 ;2.  How do I put this on Github?
 
 
-(def puzzles [
-              {:format :multi-choice
-               :question "Q1:  Does this even work?"
-               :options {:a "First attempt -- nope"
-                         :b "Made some progress -- still nope"
-                         :c "Ask the Googles"
-                         :d "Victory!  Next Step: World Domination"}
-               :answer #{"D" "d"}}
-              {:format :multi-choice
-               :question "Q2:  Will this work without four options?"
-               :options {:a "First attempt -- nope"
-                         :b "Made some progress -- still nope"
-                         :c "Ask the Googles"
-                         :d "Victory!  Next Step: World Domination"}
-               :answer #{"A" "a"}}
-              {:format :multi-choice
-               :question "Q3:  Can I make these questions a different format?"
-               :options {:a "First attempt -- nope"
-                         :b "Made some progress -- still nope"
-                         :c "Ask the Googles"
-                         :d "Victory!  Next Step: World Domination"}
-               :answer #{"C" "c"}}])
+(def all-puzzles [
+                  {:format :multi-choice
+                   :question "Q1:  Does this even work?"
+                   :options {:a "First attempt -- nope"
+                             :b "Made some progress -- still nope"
+                             :c "Ask the Googles"
+                             :d "Victory!  Next Step: World Domination"}
+                   :answer #{"D" "d"}}
+                  {:format :multi-choice
+                   :question "Q2:  Will this work without four options?"
+                   :options {:a "First attempt -- nope"
+                             :b "Made some progress -- still nope"
+                             :c "Ask the Googles"
+                             :d "Victory!  Next Step: World Domination"}
+                   :answer #{"A" "a"}}
+                  {:format :multi-choice
+                   :question "Q3:  Can I make these questions a different format?"
+                   :options {:a "First attempt -- nope"
+                             :b "Made some progress -- still nope"
+                             :c "Ask the Googles"
+                             :d "Victory!  Next Step: World Domination"}
+                   :answer #{"C" "c"}}])
 
-(defn generate-puzzle
-  []
-  (get puzzles (rand-int 3)))
-  ;generate random number to pick a puzzle
+(def puzzles [])
+
+(defn generate-puzzles
+  [fromcoll tocoll]
+  (repeatedly 5 (into tocoll (get fromcoll (rand-int 3)))))
 
 (defn print-options
   [puzzle]

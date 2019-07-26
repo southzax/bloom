@@ -17,7 +17,7 @@
 ;2.  How do I put this on Github?
 
 
-(def all-puzzles [
+(def puzzles [
                   {:format :multi-choice
                    :question "Q1:  Does this even work?"
                    :options {:a "First attempt -- nope"
@@ -40,11 +40,6 @@
                              :d "Victory!  Next Step: World Domination"}
                    :answer #{"C" "c"}}])
 
-(def puzzles [])
-
-(defn generate-puzzles
-  [fromcoll tocoll]
-  (repeatedly 5 (into tocoll (get fromcoll (rand-int 3)))))
 
 (defn print-options
   [puzzle]
@@ -64,14 +59,16 @@
   [puzzle answer]
   (contains? (get-in puzzle [:answer]) answer))
 
+
 (defn -main
   [& args]
   (loop [remaining-puzzles puzzles]
+    (def n (rand-int 3))
     (if (empty? remaining-puzzles)
       (println "You've completed your quest, but your princess is in another castle.")
-      (do (print-question (nth remaining-puzzles 0))
+      (do (print-question (get remaining-puzzles n))
         (let [answer (read-line)]
-          (if (check-answer (nth remaining-puzzles 0) answer)
+          (if (check-answer (get remaining-puzzles n) answer)
             (do (println "--Great, kid, but don't get cocky.")
               (let [[puzzle & remaining] remaining-puzzles]
                 (recur remaining)))
